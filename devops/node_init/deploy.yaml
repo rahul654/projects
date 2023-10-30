@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: testnodejsdeploy
+spec:
+  selector:
+    app: testnodejsdeploy
+  ports:
+    - port: 8080
+      targetPort: 3000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testnodejsdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testnodejsdeploy
+  template:
+    metadata:
+      labels:
+        app: testnodejsdeploy
+    spec:
+      containers:
+        - name: testnodejsdeploy
+          image: rahul65422/testnodejsdeploy:1.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MY_MONGO_URL
+              value: mongodb+srv://rahul:1234@cluster0.lvzmiqz.mongodb.net/
+          imagePullPolicy: Always
+
+# kubectl apply -f deploy.yaml
+# kubectl get pods --watch
+# minikube service testnodejsdeploy --url

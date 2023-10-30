@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: rahultest.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: testreactdeploy
+            port:
+              number: 80
+      - path: /todo
+        pathType: Prefix
+        backend:
+          service:
+            name: testnodejsdeploy
+            port:
+              number: 8080
